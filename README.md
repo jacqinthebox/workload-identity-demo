@@ -78,39 +78,6 @@ az identity federated-credential create --name federated-identity-sademo \
 
 ## Test
 
-Let's test it
-
-```sh
-cat <<EOF | kubectl apply -f -
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: azcli-deployment
-  namespace: default
-  labels:
-    app: azcli
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: azcli
-  template:
-    metadata:
-      labels:
-        app: azcli
-    spec:
-      # needs to refer to service account used with federation
-      serviceAccount: workload-identity-serviceaccount
-      containers:
-        - name: azcli
-          image: mcr.microsoft.com/azure-cli:latest
-          command:
-            - "/bin/bash"
-            - "-c"
-            - "sleep infinity"
-EOF
-```
-
 Let's test it with storage
 
 
