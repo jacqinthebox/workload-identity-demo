@@ -80,10 +80,9 @@ az identity federated-credential create --name federated-identity-sademo \
 
 
 
-## Test
+## Create storage account and give the managed identity access.
 
-Let's test it with storage
-
+Let’s test it with storage
 
 ```sh
 az storage account create \
@@ -94,10 +93,24 @@ az storage account create \
 
 Create a container named democontainer and put the file in there.
 
-
+```shell
+az storage container create -n democontainer --account-name demo01devwestorage
+az storage blob upload \
+    --account-name demo01devwestorage \
+    --container-name democontainer \
+    --name demofile.txt \
+    --file demofile.txt
+```
 
 Next give the managed identity access to the storage account.
 
+```shell
+az role assignment create --assignee $USER_ASSIGNED_CLIENT_ID \
+  --role 'Reader' \
+  --scope /subscriptions/<mySubscriptionID>/resourceGroups/<myResourceGroup>/providers/Microsoft.Storage/storageAccounts/myStorageAcct
+```
+
+## Create a deployment
 
 ```sh
 cat <<EOF | kubectl apply -f -
