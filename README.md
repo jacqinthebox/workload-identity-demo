@@ -26,7 +26,7 @@ az aks create -g $PREFIX-rg -n $PREFIX-cluster --node-count 2 --location westeur
 	--enable-oidc-issuer --enable-workload-identity
 ```
 
-Next check the well-known url from the cluster:
+Next get the well-known url from the cluster, you will need this value later.
 
 ```sh
 export AKS_OIDC_ISSUER="$(az aks show -n $PREFIX-cluster -g $PREFIX-rg --query "oidcIssuerProfile.issuerUrl" -otsv)"
@@ -78,6 +78,8 @@ az identity federated-credential create --name federated-identity-sademo \
   --subject system:serviceaccount:default:workload-identity-serviceaccount
 ```
 
+
+
 ## Test
 
 Let's test it with storage
@@ -89,6 +91,10 @@ az storage account create \
   --resource-group $PREFIX-rg \
   --location westeurope
 ```
+
+Create a container named democontainer and put the file in there.
+
+
 
 Next give the managed identity access to the storage account.
 
