@@ -2,6 +2,8 @@
 
 ## How it works
 
+https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview
+
 ![image](https://user-images.githubusercontent.com/361399/225572771-203381c9-99fc-4585-8a96-eba78ab01eb7.png)
 
 
