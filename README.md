@@ -1,5 +1,12 @@
 # Workload Identity Demo
 
+## How it works
+
+![image](https://user-images.githubusercontent.com/361399/225572771-203381c9-99fc-4585-8a96-eba78ab01eb7.png)
+
+
+## Build cluster
+
 Create a cluster with support for Workload Identity
 
 ```sh
@@ -23,6 +30,7 @@ Next check the well-known url from the cluster:
 export AKS_OIDC_ISSUER="$(az aks show -n $PREFIX-cluster -g $PREFIX-rg --query "oidcIssuerProfile.issuerUrl" -otsv)"
 echo $AKS_OIDC_ISSUER
 ```
+## Create managed identity and service account
 
 Next create a managed identity and get the client id. 
 
@@ -53,6 +61,8 @@ metadata:
 EOF
 ```
 
+## Enable it for federation
+
 Next, create a federated credential:
 
 ```sh
@@ -65,6 +75,8 @@ az identity federated-credential create --name federated-identity-sademo \
   --resource-group $PREFIX-rg --issuer ${AKS_OIDC_ISSUER} \
   --subject system:serviceaccount:default:workload-identity-serviceaccount
 ```
+
+## Test
 
 Let's test it
 
