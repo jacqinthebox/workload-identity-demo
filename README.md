@@ -82,13 +82,14 @@ az identity federated-credential create --name federated-identity-sademo \
 
 ## Create storage account and give the managed identity access.
 
-This part can be improved but for now it should give an idea how it works.
 
 Let’s test it with storage.
 
 ```sh
+STORAGE=demo01devwestorage
+
 az storage account create \
-  --name demo01devwestorage \
+  --name $STORAGE \
   --resource-group $PREFIX-rg \
   --location westeurope
 ```
@@ -96,9 +97,9 @@ az storage account create \
 Create a container named democontainer and put the file in there.
 
 ```shell
-az storage container create -n democontainer --account-name demo01devwestorage
+az storage container create -n democontainer --account-name $STORAGE
 az storage blob upload \
-    --account-name demo01devwestorage \
+    --account-name $STORAGE \
     --container-name democontainer \
     --name demofile.txt \
     --file demofile.txt
