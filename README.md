@@ -82,7 +82,9 @@ az identity federated-credential create --name federated-identity-sademo \
 
 ## Create storage account and give the managed identity access.
 
-Let’s test it with storage
+This part can be improved but for now it should give an idea how it works.
+
+Let’s test it with storage.
 
 ```sh
 az storage account create \
@@ -102,7 +104,7 @@ az storage blob upload \
     --file demofile.txt
 ```
 
-Next give the managed identity access to the storage account.
+Next give the managed identity access to the storage account. Change the subscription, resourcegroup and storage account name accordingly
 
 ```shell
 az role assignment create --assignee $USER_ASSIGNED_CLIENT_ID \
@@ -110,7 +112,15 @@ az role assignment create --assignee $USER_ASSIGNED_CLIENT_ID \
   --scope /subscriptions/<mySubscriptionID>/resourceGroups/<myResourceGroup>/providers/Microsoft.Storage/storageAccounts/myStorageAcct
 ```
 
+
+Edit main.py and change the storage account name!
+Then build a new container image and push it to your registry.
+
+
 ## Create a deployment
+
+Change the container image.
+
 
 ```sh
 cat <<EOF | kubectl apply -f -
@@ -135,6 +145,6 @@ spec:
       serviceAccount: workload-identity-serviceaccount
       containers:
         - name: python-worker
-          image: ghcr.io/jacqinthebox/python-worker:latest
+          image: <YOUR IMAGE>
 EOF
 ```
